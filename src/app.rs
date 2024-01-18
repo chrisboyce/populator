@@ -71,8 +71,9 @@ impl eframe::App for Populator {
             // The central panel the region left after adding TopPanel's and SidePanel's
             ui.heading("User Input");
 
-            ui.horizontal(|ui| {
+            ui.vertical(|ui| {
                 ui.text_edit_singleline(&mut self.user_input);
+                ui.label("Result: TODO");
             });
 
             let mut buttons = vec![];

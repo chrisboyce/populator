@@ -2,6 +2,7 @@
 #[derive(serde::Deserialize, serde::Serialize)]
 #[serde(default)] // if we add new fields, give them default values when deserializing old state
 pub struct Populator {
+    result: String,
     user_input: String,
     // Example stuff:
     label: String,
@@ -14,6 +15,7 @@ impl Default for Populator {
     fn default() -> Self {
         Self {
             user_input: "1+2".to_string(),
+            result: "Starting".to_string(),
             // Example stuff:
             label: "Hello World!".to_owned(),
             value: 2.7,
@@ -73,10 +75,13 @@ impl eframe::App for Populator {
 
             ui.vertical(|ui| {
                 let user_input = ui.text_edit_singleline(&mut self.user_input);
+
                 if user_input.changed() {
-                    println!("User input changed: {}", self.user_input);
+                    let new_result = calculate_result(&self.user_input);
+                    self.result = new_result;
                 }
-                ui.label("Result: TODO");
+
+                ui.label(format!("Result: {}", self.result));
             });
 
             let mut buttons = vec![];
@@ -100,10 +105,12 @@ impl eframe::App for Populator {
                     buttons.push((ui.button("-"), "+".to_string()))
                 });
             });
+
             for (button, value) in buttons {
                 if button.clicked() {
                     self.user_input.push_str(&format!("{value}"));
-                    println!("User input changed: {}", self.user_input);
+                    let new_result = calculate_result(&self.user_input);
+                    self.result = new_result;
                 }
             }
 
@@ -113,6 +120,11 @@ impl eframe::App for Populator {
             });
         });
     }
+}
+
+fn calculate_result(user_input: &String) -> String {
+    println!("Calling calculate_result({})", user_input);
+    String::from("TODO")
 }
 
 fn powered_by_egui_and_eframe(ui: &mut egui::Ui) {

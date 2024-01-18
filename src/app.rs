@@ -72,7 +72,10 @@ impl eframe::App for Populator {
             ui.heading("User Input");
 
             ui.vertical(|ui| {
-                ui.text_edit_singleline(&mut self.user_input);
+                let user_input = ui.text_edit_singleline(&mut self.user_input);
+                if user_input.changed() {
+                    println!("User input changed: {}", self.user_input);
+                }
                 ui.label("Result: TODO");
             });
 
@@ -100,6 +103,7 @@ impl eframe::App for Populator {
             for (button, value) in buttons {
                 if button.clicked() {
                     self.user_input.push_str(&format!("{value}"));
+                    println!("User input changed: {}", self.user_input);
                 }
             }
 

@@ -1,7 +1,8 @@
 /// We derive Deserialize/Serialize so we can persist app state on shutdown.
 #[derive(serde::Deserialize, serde::Serialize)]
 #[serde(default)] // if we add new fields, give them default values when deserializing old state
-pub struct TemplateApp {
+pub struct Populator {
+    user_input: String,
     // Example stuff:
     label: String,
 
@@ -9,9 +10,10 @@ pub struct TemplateApp {
     value: f32,
 }
 
-impl Default for TemplateApp {
+impl Default for Populator {
     fn default() -> Self {
         Self {
+            user_input: "1+2".to_string(),
             // Example stuff:
             label: "Hello World!".to_owned(),
             value: 2.7,
@@ -19,7 +21,7 @@ impl Default for TemplateApp {
     }
 }
 
-impl TemplateApp {
+impl Populator {
     /// Called once before the first frame.
     pub fn new(cc: &eframe::CreationContext<'_>) -> Self {
         // This is also where you can customize the look and feel of egui using
@@ -35,7 +37,7 @@ impl TemplateApp {
     }
 }
 
-impl eframe::App for TemplateApp {
+impl eframe::App for Populator {
     /// Called by the frame work to save state before shutdown.
     fn save(&mut self, storage: &mut dyn eframe::Storage) {
         eframe::set_value(storage, eframe::APP_KEY, self);
@@ -67,24 +69,38 @@ impl eframe::App for TemplateApp {
 
         egui::CentralPanel::default().show(ctx, |ui| {
             // The central panel the region left after adding TopPanel's and SidePanel's
-            ui.heading("eframe template");
+            ui.heading("User Input");
 
             ui.horizontal(|ui| {
-                ui.label("Write something: ");
-                ui.text_edit_singleline(&mut self.label);
+                ui.text_edit_singleline(&mut self.user_input);
             });
 
-            ui.add(egui::Slider::new(&mut self.value, 0.0..=10.0).text("value"));
-            if ui.button("Increment").clicked() {
-                self.value += 1.0;
+            let mut buttons = vec![];
+            ui.vertical(|ui| {
+                for row in 0..3 {
+                    ui.horizontal(|ui| {
+                        for i in (row * 3)..(row * 3 + 3) {
+                            let value = format!("{}", i);
+                            let button = ui.button(value.clone());
+
+                            // Save the button in an array so that we can iterate
+                            // over all of them at once to perform common
+                            // behavior.
+                            buttons.push((button, value))
+                        }
+                    });
+                }
+                ui.horizontal(|ui| buttons.push((ui.button("0"), "0".to_string())));
+                ui.horizontal(|ui| {
+                    buttons.push((ui.button("+"), "+".to_string()));
+                    buttons.push((ui.button("-"), "+".to_string()))
+                });
+            });
+            for (button, value) in buttons {
+                if button.clicked() {
+                    self.user_input.push_str(&format!("{value}"));
+                }
             }
-
-            ui.separator();
-
-            ui.add(egui::github_link_file!(
-                "https://github.com/emilk/eframe_template/blob/master/",
-                "Source code."
-            ));
 
             ui.with_layout(egui::Layout::bottom_up(egui::Align::LEFT), |ui| {
                 powered_by_egui_and_eframe(ui);

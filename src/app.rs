@@ -87,20 +87,37 @@ impl eframe::App for Populator {
             });
 
             let mut buttons = vec![];
+            // We want to create a number pad in the following format:
+            //
+            // 7 8 9
+            // 4 5 6
+            // 1 2 3
             ui.vertical(|ui| {
+                // Create 3 rows, with `row` having a value of 0..=2
                 for row in 0..3 {
                     ui.horizontal(|ui| {
-                        for i in (row * 3)..(row * 3 + 3) {
-                            let value = format!("{}", i);
-                            let button = ui.button(value.clone());
+                        // Though we are counting 0..=2, iwe want the first row
+                        // to will  contain the "7 8 9" , ie we need to reverse
+                        // the row order. To do that, we subtract 2 from the
+                        // current row index to count backwards from the "end"
+                        // index of 2
+                        let rev_row = 2 - row;
+
+                        for i in (rev_row * 3)..(rev_row * 3 + 3) {
+                            // We actually want to start counting from 1 instead
+                            // of 0, so we add 1 here
+                            let value = i + 1;
+                            let value_as_string = format!("{}", value);
+                            let button = ui.button(value_as_string.clone());
 
                             // Save the button in an array so that we can iterate
                             // over all of them at once to perform common
                             // behavior.
-                            buttons.push((button, value))
+                            buttons.push((button, value_as_string))
                         }
                     });
                 }
+
                 ui.horizontal(|ui| buttons.push((ui.button("0"), "0".to_string())));
                 ui.horizontal(|ui| {
                     buttons.push((ui.button("+"), "+".to_string()));

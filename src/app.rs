@@ -78,7 +78,9 @@ impl eframe::App for Populator {
 
                 if user_input.changed() {
                     let new_result = calculate_result(&self.user_input);
-                    self.result = new_result;
+                    if let Some(new_result) = new_result {
+                        self.result = new_result;
+                    }
                 }
 
                 ui.label(format!("Result: {}", self.result));
@@ -110,7 +112,9 @@ impl eframe::App for Populator {
                 if button.clicked() {
                     self.user_input.push_str(&format!("{value}"));
                     let new_result = calculate_result(&self.user_input);
-                    self.result = new_result;
+                    if let Some(new_result) = new_result {
+                        self.result = new_result;
+                    }
                 }
             }
 
@@ -122,9 +126,13 @@ impl eframe::App for Populator {
     }
 }
 
-fn calculate_result(user_input: &String) -> String {
-    println!("Calling calculate_result({})", user_input);
-    String::from("TODO")
+fn calculate_result(user_input: &String) -> Option<String> {
+    let mut context = fend_core::Context::new();
+    if let Ok(result) = fend_core::evaluate(user_input, &mut context) {
+        Some(result.get_main_result().to_string())
+    } else {
+        None
+    }
 }
 
 fn powered_by_egui_and_eframe(ui: &mut egui::Ui) {

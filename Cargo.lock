@@ -1064,6 +1064,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "fend-core"
+version = "1.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3f5a7a90469579287f0b20656602292f92dd4e4bbde86ae04607064d7798da53"
+
+[[package]]
 name = "flate2"
 version = "1.0.28"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1910,6 +1916,7 @@ dependencies = [
  "eframe",
  "egui",
  "env_logger",
+ "fend-core",
  "log",
  "serde",
  "wasm-bindgen-futures",

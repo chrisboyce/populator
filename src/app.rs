@@ -2,23 +2,57 @@
 #[derive(serde::Deserialize, serde::Serialize)]
 #[serde(default)] // if we add new fields, give them default values when deserializing old state
 pub struct Populator {
-    result: String,
-    user_input: String,
-    // Example stuff:
-    label: String,
+    /// Persist UI mode and settings
+    settings: Settings,
+}
 
-    #[serde(skip)] // This how you opt-out of serialization of a field
-    value: f32,
+#[derive(serde::Deserialize, serde::Serialize)]
+pub struct Settings {
+    equation_settings: EquationSettings,
+    color_settings: ColorSettings,
+}
+
+#[derive(serde::Deserialize, serde::Serialize)]
+pub struct ColorSettings {
+    r: f32,
+    g: f32,
+    b: f32,
+    a: f32,
+}
+#[derive(serde::Deserialize, serde::Serialize)]
+pub struct EquationSettings {
+    show_keypad: bool,
+    intput: String,
+    output: String,
+}
+
+#[derive(serde::Deserialize, serde::Serialize)]
+pub enum ViewMode {}
+
+#[derive(serde::Deserialize, serde::Serialize)]
+pub struct ViewSettings {
+    show_colors: bool,
 }
 
 impl Default for Populator {
     fn default() -> Self {
         Self {
-            user_input: "1+2".to_string(),
-            result: "Starting".to_string(),
+            // user_input: "1+2".to_string(),
+            // result: "3".to_string(),
             // Example stuff:
-            label: "Hello World!".to_owned(),
-            value: 2.7,
+            settings: Settings {
+                equation_settings: EquationSettings {
+                    intput: "1+2".to_string(),
+                    output: "3".to_string(),
+                    show_keypad: true,
+                },
+                color_settings: ColorSettings {
+                    r: 1.0,
+                    g: 0.0,
+                    b: 0.0,
+                    a: 1.0,
+                },
+            },
         }
     }
 }
@@ -62,6 +96,9 @@ impl eframe::App for Populator {
                             ctx.send_viewport_cmd(egui::ViewportCommand::Close);
                         }
                     });
+                    ui.menu_button("View", |ui| {
+                        ui.checkbox(&mut self.settings.equation_settings.show_keypad, "Keypad")
+                    });
                     ui.add_space(16.0);
                 }
 
@@ -74,67 +111,75 @@ impl eframe::App for Populator {
             ui.heading("User Input");
 
             ui.vertical(|ui| {
-                let user_input = ui.text_edit_singleline(&mut self.user_input);
+                let user_input =
+                    ui.text_edit_singleline(&mut self.settings.equation_settings.intput);
 
                 if user_input.changed() {
-                    let new_result = calculate_result(&self.user_input);
+                    let new_result = calculate_result(&self.settings.equation_settings.intput);
                     if let Some(new_result) = new_result {
-                        self.result = new_result;
+                        self.settings.equation_settings.output = new_result;
                     }
                 }
 
-                ui.label(format!("Result: {}", self.result));
+                ui.label(format!(
+                    "Result: {}",
+                    self.settings.equation_settings.output
+                ));
             });
 
-            let mut buttons = vec![];
-            // We want to create a number pad in the following format:
-            //
-            // 7 8 9
-            // 4 5 6
-            // 1 2 3
-            ui.vertical(|ui| {
-                // Create 3 rows, with `row` having a value of 0..=2
-                for row in 0..3 {
+            if self.settings.equation_settings.show_keypad {
+                let mut buttons = vec![];
+                // We want to create a number pad in the following format:
+                //
+                // 7 8 9
+                // 4 5 6
+                // 1 2 3
+                ui.vertical(|ui| {
+                    // Create 3 rows, with `row` having a value of 0..=2
+                    for row in 0..3 {
+                        ui.horizontal(|ui| {
+                            // Though we are counting 0..=2, iwe want the first row
+                            // to will  contain the "7 8 9" , ie we need to reverse
+                            // the row order. To do that, we subtract 2 from the
+                            // current row index to count backwards from the "end"
+                            // index of 2
+                            let rev_row = 2 - row;
+
+                            for i in (rev_row * 3)..(rev_row * 3 + 3) {
+                                // We actually want to start counting from 1 instead
+                                // of 0, so we add 1 here
+                                let value = i + 1;
+                                let value_as_string = format!("{}", value);
+                                let button = ui.button(value_as_string.clone());
+
+                                // Save the button in an array so that we can iterate
+                                // over all of them at once to perform common
+                                // behavior.
+                                buttons.push((button, value_as_string))
+                            }
+                        });
+                    }
+
+                    ui.horizontal(|ui| buttons.push((ui.button("0"), "0".to_string())));
                     ui.horizontal(|ui| {
-                        // Though we are counting 0..=2, iwe want the first row
-                        // to will  contain the "7 8 9" , ie we need to reverse
-                        // the row order. To do that, we subtract 2 from the
-                        // current row index to count backwards from the "end"
-                        // index of 2
-                        let rev_row = 2 - row;
-
-                        for i in (rev_row * 3)..(rev_row * 3 + 3) {
-                            // We actually want to start counting from 1 instead
-                            // of 0, so we add 1 here
-                            let value = i + 1;
-                            let value_as_string = format!("{}", value);
-                            let button = ui.button(value_as_string.clone());
-
-                            // Save the button in an array so that we can iterate
-                            // over all of them at once to perform common
-                            // behavior.
-                            buttons.push((button, value_as_string))
-                        }
+                        buttons.push((ui.button("+"), "+".to_string()));
+                        buttons.push((ui.button("-"), "+".to_string()))
                     });
-                }
-
-                ui.horizontal(|ui| buttons.push((ui.button("0"), "0".to_string())));
-                ui.horizontal(|ui| {
-                    buttons.push((ui.button("+"), "+".to_string()));
-                    buttons.push((ui.button("-"), "+".to_string()))
                 });
-            });
 
-            for (button, value) in buttons {
-                if button.clicked() {
-                    self.user_input.push_str(&format!("{value}"));
-                    let new_result = calculate_result(&self.user_input);
-                    if let Some(new_result) = new_result {
-                        self.result = new_result;
+                for (button, value) in buttons {
+                    if button.clicked() {
+                        self.settings
+                            .equation_settings
+                            .intput
+                            .push_str(&format!("{value}"));
+                        let new_result = calculate_result(&self.settings.equation_settings.intput);
+                        if let Some(new_result) = new_result {
+                            self.settings.equation_settings.output = new_result;
+                        }
                     }
                 }
             }
-
             ui.with_layout(egui::Layout::bottom_up(egui::Align::LEFT), |ui| {
                 powered_by_egui_and_eframe(ui);
                 egui::warn_if_debug_build(ui);

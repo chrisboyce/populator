@@ -1,3 +1,5 @@
+use egui::Color32;
+
 /// We derive Deserialize/Serialize so we can persist app state on shutdown.
 #[derive(serde::Deserialize, serde::Serialize)]
 #[serde(default)] // if we add new fields, give them default values when deserializing old state
@@ -14,10 +16,8 @@ pub struct Settings {
 
 #[derive(serde::Deserialize, serde::Serialize)]
 pub struct ColorSettings {
-    r: f32,
-    g: f32,
-    b: f32,
-    a: f32,
+    show_color_picker: bool,
+    color: Color32,
 }
 #[derive(serde::Deserialize, serde::Serialize)]
 pub struct EquationSettings {
@@ -47,10 +47,8 @@ impl Default for Populator {
                     show_keypad: true,
                 },
                 color_settings: ColorSettings {
-                    r: 1.0,
-                    g: 0.0,
-                    b: 0.0,
-                    a: 1.0,
+                    color: Color32::from_rgb(255, 128, 64),
+                    show_color_picker: true,
                 },
             },
         }
@@ -97,7 +95,11 @@ impl eframe::App for Populator {
                         }
                     });
                     ui.menu_button("View", |ui| {
-                        ui.checkbox(&mut self.settings.equation_settings.show_keypad, "Keypad")
+                        ui.checkbox(&mut self.settings.equation_settings.show_keypad, "Keypad");
+                        ui.checkbox(
+                            &mut self.settings.color_settings.show_color_picker,
+                            "Color Picker",
+                        );
                     });
                     ui.add_space(16.0);
                 }
@@ -180,6 +182,11 @@ impl eframe::App for Populator {
                     }
                 }
             }
+
+            if self.settings.color_settings.show_color_picker {
+                ui.color_edit_button_srgba(&mut self.settings.color_settings.color);
+            }
+
             ui.with_layout(egui::Layout::bottom_up(egui::Align::LEFT), |ui| {
                 powered_by_egui_and_eframe(ui);
                 egui::warn_if_debug_build(ui);

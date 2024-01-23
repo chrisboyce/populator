@@ -1917,6 +1917,7 @@ dependencies = [
  "egui",
  "env_logger",
  "fend-core",
+ "hex",
  "log",
  "serde",
  "wasm-bindgen-futures",

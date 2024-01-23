@@ -1,4 +1,5 @@
 use egui::Color32;
+use hex::FromHex;
 
 /// We derive Deserialize/Serialize so we can persist app state on shutdown.
 #[derive(serde::Deserialize, serde::Serialize)]
@@ -18,6 +19,7 @@ pub struct Settings {
 pub struct ColorSettings {
     show_color_picker: bool,
     color: Color32,
+    color_as_string: String,
 }
 #[derive(serde::Deserialize, serde::Serialize)]
 pub struct EquationSettings {
@@ -47,6 +49,7 @@ impl Default for Populator {
                     show_keypad: true,
                 },
                 color_settings: ColorSettings {
+                    color_as_string: "0xff0000".to_string(),
                     color: Color32::from_rgb(255, 128, 64),
                     show_color_picker: true,
                 },
@@ -184,11 +187,43 @@ impl eframe::App for Populator {
             }
 
             if self.settings.color_settings.show_color_picker {
-                ui.color_edit_button_srgba(&mut self.settings.color_settings.color);
+                ui.horizontal(|ui| {
+                    let color_picker =
+                        ui.color_edit_button_srgba(&mut self.settings.color_settings.color);
+                    if color_picker.changed() {
+                        self.settings.color_settings.color_as_string =
+                            format!("{}", self.settings.color_settings.color.to_hex())
+                    }
+
+                    let color_text =
+                        ui.text_edit_singleline(&mut self.settings.color_settings.color_as_string);
+                    if color_text.changed() {
+                        // The user has updated the text of the color string.
+                        // Try to parse it as one of the various types of inputs
+                        println!("Parsing:{} ", self.settings.color_settings.color_as_string);
+                        if !self.settings.color_settings.color_as_string.is_empty() {
+                            // try to parse #RRGGBBxx format by skipping the first
+                            // character (#) and sending the rest to the `hex`
+                            // crate to try to parse.
+                            let color_as_string =
+                                &self.settings.color_settings.color_as_string.as_str()[1..];
+
+                            if let Ok([r, g, b, a]) = <[u8; 4]>::from_hex(color_as_string) {
+                                self.settings.color_settings.color =
+                                    Color32::from_rgba_unmultiplied(r, g, b, a);
+                            } else if let Ok([r, g, b]) = <[u8; 3]>::from_hex(color_as_string) {
+                                self.settings.color_settings.color = Color32::from_rgb(r, g, b);
+                            }
+
+                            // try to parse #RRGGBB format by skipping the first
+                            // character and sending the rest to the `hex` crate
+                        }
+                    }
+                });
             }
 
             ui.with_layout(egui::Layout::bottom_up(egui::Align::LEFT), |ui| {
-                powered_by_egui_and_eframe(ui);
+                // powered_by_egui_and_eframe(ui);
                 egui::warn_if_debug_build(ui);
             });
         });

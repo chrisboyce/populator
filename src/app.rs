@@ -133,6 +133,7 @@ impl eframe::App for Populator {
             });
 
             if self.settings.equation_settings.show_keypad {
+                ui.separator();
                 let mut buttons = vec![];
                 // We want to create a number pad in the following format:
                 //
@@ -187,6 +188,7 @@ impl eframe::App for Populator {
             }
 
             if self.settings.color_settings.show_color_picker {
+                ui.separator();
                 ui.horizontal(|ui| {
                     let color_picker =
                         ui.color_edit_button_srgba(&mut self.settings.color_settings.color);

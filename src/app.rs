@@ -113,9 +113,9 @@ impl eframe::App for Populator {
 
         egui::CentralPanel::default().show(ctx, |ui| {
             // The central panel the region left after adding TopPanel's and SidePanel's
-            ui.heading("User Input");
+            ui.heading("Evaluate Expression");
 
-            ui.vertical(|ui| {
+            ui.horizontal(|ui| {
                 let user_input =
                     ui.text_edit_singleline(&mut self.settings.equation_settings.intput);
 
@@ -126,10 +126,7 @@ impl eframe::App for Populator {
                     }
                 }
 
-                ui.label(format!(
-                    "Result: {}",
-                    self.settings.equation_settings.output
-                ));
+                ui.label(format!("= {}", self.settings.equation_settings.output));
             });
 
             if self.settings.equation_settings.show_keypad {

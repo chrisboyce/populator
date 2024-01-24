@@ -186,6 +186,7 @@ impl eframe::App for Populator {
 
             if self.settings.color_settings.show_color_picker {
                 ui.separator();
+                ui.heading("Color Picker");
                 ui.horizontal(|ui| {
                     let color_picker =
                         ui.color_edit_button_srgba(&mut self.settings.color_settings.color);

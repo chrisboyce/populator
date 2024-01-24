@@ -197,6 +197,12 @@ impl eframe::App for Populator {
 
                     let color_text =
                         ui.text_edit_singleline(&mut self.settings.color_settings.color_as_string);
+                    ui.label(format!(
+                        "({},{},{})",
+                        self.settings.color_settings.color.r(),
+                        self.settings.color_settings.color.g(),
+                        self.settings.color_settings.color.b(),
+                    ));
                     if color_text.changed() {
                         // The user has updated the text of the color string.
                         // Try to parse it as one of the various types of inputs

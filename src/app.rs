@@ -98,7 +98,20 @@ impl eframe::App for Populator {
                         }
                     });
                     ui.menu_button("View", |ui| {
-                        ui.checkbox(&mut self.settings.equation_settings.show_keypad, "Keypad");
+                        if ui
+                            .checkbox(&mut self.settings.equation_settings.show_keypad, "Keypad")
+                            .changed()
+                        {
+                            if self.settings.equation_settings.show_keypad {
+                                ctx.send_viewport_cmd(egui::ViewportCommand::InnerSize(
+                                    egui::vec2(400.0, 400.0),
+                                ));
+                            } else {
+                                ctx.send_viewport_cmd(egui::ViewportCommand::InnerSize(
+                                    egui::vec2(200.0, 200.0),
+                                ));
+                            }
+                        }
                         ui.checkbox(
                             &mut self.settings.color_settings.show_color_picker,
                             "Color Picker",

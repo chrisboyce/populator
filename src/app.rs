@@ -17,12 +17,14 @@ pub struct Settings {
 
 #[derive(serde::Deserialize, serde::Serialize)]
 pub struct ColorSettings {
+    #[serde(skip)]
     show_color_picker: bool,
     color: Color32,
     color_as_string: String,
 }
 #[derive(serde::Deserialize, serde::Serialize)]
 pub struct EquationSettings {
+    #[serde(skip)]
     show_keypad: bool,
     intput: String,
     output: String,
@@ -46,12 +48,12 @@ impl Default for Populator {
                 equation_settings: EquationSettings {
                     intput: "1+2".to_string(),
                     output: "3".to_string(),
-                    show_keypad: true,
+                    show_keypad: false,
                 },
                 color_settings: ColorSettings {
                     color_as_string: "0xff0000".to_string(),
                     color: Color32::from_rgb(255, 128, 64),
-                    show_color_picker: true,
+                    show_color_picker: false,
                 },
             },
         }
@@ -108,7 +110,7 @@ impl eframe::App for Populator {
                                 ));
                             } else {
                                 ctx.send_viewport_cmd(egui::ViewportCommand::InnerSize(
-                                    egui::vec2(200.0, 200.0),
+                                    egui::vec2(300.0, 300.0),
                                 ));
                             }
                         }

@@ -129,8 +129,9 @@ impl eframe::App for Populator {
         egui::CentralPanel::default().show(ctx, |ui| {
             // The central panel the region left after adding TopPanel's and SidePanel's
             ui.heading("Evaluate Expression");
-
-            ui.horizontal(|ui| {
+            // Move to the next line
+            ui.vertical(|ui| {
+            //ui.horizontal(|ui| {
                 let user_input =
                     ui.text_edit_singleline(&mut self.settings.equation_settings.intput);
 

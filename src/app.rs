@@ -136,7 +136,7 @@ impl eframe::App for Populator {
         });
 
         let mut visual = ctx.style().visuals.clone();
-        visual.panel_fill = Color32::from_rgb(0, 255, 0);
+        visual.panel_fill = Color32::from_rgb(190, 195, 198);//Ice Gray
         ctx.set_visuals(visual);
 
         egui::SidePanel::left("my_left_panel")
@@ -144,7 +144,7 @@ impl eframe::App for Populator {
             .show(ctx, |ui| {});
 
         egui::SidePanel::right("my_right_panel")
-            .exact_width(20.0)
+            .exact_width(25.0)
             .show(ctx, |ui| {});
 
         let mut visual = ctx.style().visuals.clone();

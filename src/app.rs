@@ -83,22 +83,35 @@ impl eframe::App for Populator {
     }
 
     /// Called each time the UI needs repainting, which may be many times per second.
-    fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+    fn update(&mut self, ctx: &egui::Context, frame: &mut eframe::Frame) {
         // Put your widgets into a `SidePanel`, `TopBottomPanel`, `CentralPanel`, `Window` or `Area`.
         // For inspiration and more examples, go to https://emilk.github.io/egui
 
+        // let mut visual = ctx.style().visuals.clone();
+        // visual.panel_fill = Color32::from_rgb(255, 0, 0);
+        // ctx.set_visuals(visual);
+
         egui::TopBottomPanel::top("top_panel").show(ctx, |ui| {
+            // ui.style_mut().visuals.panel_fill = Color32::from_rgb(255, 0, 0);
             // The top panel is often a good place for a menu bar:
 
             egui::menu::bar(ui, |ui| {
                 // NOTE: no File->Quit on web pages!
                 let is_web = cfg!(target_arch = "wasm32");
                 if !is_web {
+                    let mut visual = ctx.style().visuals.clone();
+                    visual.panel_fill = Color32::from_rgb(255, 0, 0);
+                    ctx.set_visuals(visual);
+
                     ui.menu_button("File", |ui| {
                         if ui.button("Quit").clicked() {
                             ctx.send_viewport_cmd(egui::ViewportCommand::Close);
                         }
                     });
+                    // let mut visuals = ctx.style().visuals.clone();
+                    // visuals.window_fill = Color32::RED;
+                    // ctx.set_visuals(visuals);
+
                     ui.menu_button("View", |ui| {
                         if ui
                             .checkbox(&mut self.settings.equation_settings.show_keypad, "Keypad")
@@ -107,10 +120,6 @@ impl eframe::App for Populator {
                             if self.settings.equation_settings.show_keypad {
                                 ctx.send_viewport_cmd(egui::ViewportCommand::InnerSize(
                                     egui::vec2(400.0, 400.0),
-                                ));
-                            } else {
-                                ctx.send_viewport_cmd(egui::ViewportCommand::InnerSize(
-                                    egui::vec2(300.0, 300.0),
                                 ));
                             }
                         }
@@ -127,11 +136,15 @@ impl eframe::App for Populator {
         });
 
         egui::CentralPanel::default().show(ctx, |ui| {
+            let mut visual = ctx.style().visuals.clone();
+            visual.panel_fill = Color32::from_rgb(0, 255, 0);
+            ctx.set_visuals(visual);
+
             // The central panel the region left after adding TopPanel's and SidePanel's
             ui.heading("Evaluate Expression");
             // Move to the next line
             ui.vertical(|ui| {
-            //ui.horizontal(|ui| {
+                //ui.horizontal(|ui| {
                 let user_input =
                     ui.text_edit_singleline(&mut self.settings.equation_settings.intput);
 

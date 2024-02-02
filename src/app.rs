@@ -136,11 +136,24 @@ impl eframe::App for Populator {
         });
 
         let mut visual = ctx.style().visuals.clone();
+        visual.panel_fill = Color32::from_rgb(0, 255, 0);
+        ctx.set_visuals(visual);
+
+        egui::SidePanel::left("my_left_panel")
+            .exact_width(10.0)
+            .show(ctx, |ui| {});
+
+        egui::SidePanel::right("my_right_panel")
+            .exact_width(20.0)
+            .show(ctx, |ui| {});
+
+        let mut visual = ctx.style().visuals.clone();
         visual.panel_fill = Color32::from_rgb(0, 0, 255);
         ctx.set_visuals(visual);
 
         egui::CentralPanel::default().show(ctx, |ui| {
             // The central panel the region left after adding TopPanel's and SidePanel's
+
             ui.heading("Evaluate Expression");
             // Move to the next line
             ui.vertical(|ui| {

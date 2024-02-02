@@ -87,9 +87,9 @@ impl eframe::App for Populator {
         // Put your widgets into a `SidePanel`, `TopBottomPanel`, `CentralPanel`, `Window` or `Area`.
         // For inspiration and more examples, go to https://emilk.github.io/egui
 
-        // let mut visual = ctx.style().visuals.clone();
-        // visual.panel_fill = Color32::from_rgb(255, 0, 0);
-        // ctx.set_visuals(visual);
+        let mut visual = ctx.style().visuals.clone();
+        visual.panel_fill = Color32::from_rgb(255, 0, 0);
+        ctx.set_visuals(visual);
 
         egui::TopBottomPanel::top("top_panel").show(ctx, |ui| {
             // ui.style_mut().visuals.panel_fill = Color32::from_rgb(255, 0, 0);
@@ -135,11 +135,11 @@ impl eframe::App for Populator {
             });
         });
 
-        egui::CentralPanel::default().show(ctx, |ui| {
-            let mut visual = ctx.style().visuals.clone();
-            visual.panel_fill = Color32::from_rgb(0, 255, 0);
-            ctx.set_visuals(visual);
+        let mut visual = ctx.style().visuals.clone();
+        visual.panel_fill = Color32::from_rgb(0, 0, 255);
+        ctx.set_visuals(visual);
 
+        egui::CentralPanel::default().show(ctx, |ui| {
             // The central panel the region left after adding TopPanel's and SidePanel's
             ui.heading("Evaluate Expression");
             // Move to the next line

@@ -1,4 +1,4 @@
-use egui::Color32;
+use egui::{Color32, RichText};
 use hex::FromHex;
 
 /// We derive Deserialize/Serialize so we can persist app state on shutdown.
@@ -153,9 +153,12 @@ impl eframe::App for Populator {
 
         egui::CentralPanel::default().show(ctx, |ui| {
             // The central panel the region left after adding TopPanel's and SidePanel's
-
-            ui.heading("Evaluate Expression");
-            // Move to the next line
+            
+            ui.label(RichText::new("Evaluate Expression")
+                    .color(Color32::RED)
+                    .background_color(Color32::from_rgb(0, 0, 0)));
+            //ui.heading("Evaluate Expression");
+            // Move to the next line }       
             ui.vertical(|ui| {
                 //ui.horizontal(|ui| {
                 let user_input =
@@ -168,7 +171,17 @@ impl eframe::App for Populator {
                     }
                 }
 
-                ui.label(format!("= {}", self.settings.equation_settings.output));
+                //let mut visual = ctx.style().visuals.clone();
+                //visual.panel_fill = Color32::from_rgb(0, 0, 0);
+                //ctx.set_visuals(visual);
+
+                //ui.label(format!("= {}", self.settings.equation_settings.output));
+
+                ui.label(
+                    RichText::new(format!("= {}", self.settings.equation_settings.output))
+                        .color(Color32::RED)
+                        .background_color(Color32::from_rgb(0, 0, 0)),
+                );
             });
 
             if self.settings.equation_settings.show_keypad {

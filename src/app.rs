@@ -155,7 +155,7 @@ impl eframe::App for Populator {
             // The central panel the region left after adding TopPanel's and SidePanel's
             
             ui.label(RichText::new("Evaluate Expression")
-                    .color(Color32::RED)
+                    .color(Color32::WHITE)
                     .background_color(Color32::from_rgb(0, 0, 0)));
             //ui.heading("Evaluate Expression");
             // Move to the next line }       
@@ -179,7 +179,7 @@ impl eframe::App for Populator {
 
                 ui.label(
                     RichText::new(format!("= {}", self.settings.equation_settings.output))
-                        .color(Color32::RED)
+                        .color(Color32::WHITE)
                         .background_color(Color32::from_rgb(0, 0, 0)),
                 );
             });

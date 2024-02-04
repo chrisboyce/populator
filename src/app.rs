@@ -147,6 +147,10 @@ impl eframe::App for Populator {
             .exact_width(25.0)
             .show(ctx, |ui| {});
 
+        egui::TopBottomPanel::bottom("my_bottom_panel")
+            .show(ctx, |ui| {});
+
+
         let mut visual = ctx.style().visuals.clone();
         visual.panel_fill = Color32::from_rgb(211, 211, 211);//Light Gray
         ctx.set_visuals(visual);

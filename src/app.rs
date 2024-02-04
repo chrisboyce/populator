@@ -171,10 +171,6 @@ impl eframe::App for Populator {
                     }
                 }
 
-                //let mut visual = ctx.style().visuals.clone();
-                //visual.panel_fill = Color32::from_rgb(0, 0, 0);
-                //ctx.set_visuals(visual);
-
                 //ui.label(format!("= {}", self.settings.equation_settings.output));
 
                 ui.label(

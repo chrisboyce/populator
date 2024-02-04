@@ -158,18 +158,15 @@ impl eframe::App for Populator {
         egui::CentralPanel::default().show(ctx, |ui| {
             // The central panel the region left after adding TopPanel's and SidePanel's
 
-            ui.spacing_mut().item_spacing.y = 15.0;   
+            ui.spacing_mut().item_spacing.y = 15.0;
 
             ui.heading(
                 RichText::new("                     SnArKn Calculator                      ")
                     .size(20.0)
                     .color(Color32::WHITE)
                     .background_color(Color32::from_rgb(0, 0, 0)),
-                    
-
-                    
             );
-            
+
             ui.spacing_mut().item_spacing.y = 10.0;
 
             ui.label(

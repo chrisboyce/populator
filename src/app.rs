@@ -161,9 +161,12 @@ impl eframe::App for Populator {
             ui.spacing_mut().item_spacing.y = 15.0;   
 
             ui.heading(
-                RichText::new("                       SnArKn Calculator                        ")
+                RichText::new("                     SnArKn Calculator                      ")
+                    .size(20.0)
                     .color(Color32::WHITE)
                     .background_color(Color32::from_rgb(0, 0, 0)),
+                    
+
                     
             );
             
@@ -171,6 +174,7 @@ impl eframe::App for Populator {
 
             ui.label(
                 RichText::new("Evaluate Expression")
+                    .size(15.0)
                     .color(Color32::WHITE)
                     .background_color(Color32::from_rgb(0, 0, 0)),
             );
@@ -192,6 +196,7 @@ impl eframe::App for Populator {
 
                 ui.label(
                     RichText::new(format!("= {}", self.settings.equation_settings.output))
+                        .size(15.0)
                         .color(Color32::WHITE)
                         .background_color(Color32::from_rgb(0, 0, 0)),
                 );

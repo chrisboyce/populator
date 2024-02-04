@@ -150,6 +150,9 @@ impl eframe::App for Populator {
         egui::TopBottomPanel::bottom("my_bottom_panel")
             .show(ctx, |ui| {});
 
+            egui::TopBottomPanel::top("my_top_panel")
+            .show(ctx, |ui| {});
+
 
         let mut visual = ctx.style().visuals.clone();
         visual.panel_fill = Color32::from_rgb(211, 211, 211);//Light Gray

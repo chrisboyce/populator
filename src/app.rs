@@ -136,7 +136,7 @@ impl eframe::App for Populator {
         });
 
         let mut visual = ctx.style().visuals.clone();
-        visual.panel_fill = Color32::from_rgb(190, 190, 190);//Medium Gray
+        visual.panel_fill = Color32::from_rgb(190, 190, 190); //Medium Gray
         ctx.set_visuals(visual);
 
         egui::SidePanel::left("my_left_panel")
@@ -147,25 +147,31 @@ impl eframe::App for Populator {
             .exact_width(25.0)
             .show(ctx, |ui| {});
 
-        egui::TopBottomPanel::bottom("my_bottom_panel")
-            .show(ctx, |ui| {});
+        egui::TopBottomPanel::bottom("my_bottom_panel").show(ctx, |ui| {});
 
-            egui::TopBottomPanel::top("my_top_panel")
-            .show(ctx, |ui| {});
-
+        egui::TopBottomPanel::top("my_top_panel").show(ctx, |ui| {});
 
         let mut visual = ctx.style().visuals.clone();
-        visual.panel_fill = Color32::from_rgb(211, 211, 211);//Light Gray
+        visual.panel_fill = Color32::from_rgb(211, 211, 211); //Light Gray
         ctx.set_visuals(visual);
 
         egui::CentralPanel::default().show(ctx, |ui| {
             // The central panel the region left after adding TopPanel's and SidePanel's
-            
-            ui.label(RichText::new("Evaluate Expression")
+
+            ui.heading(
+                RichText::new("                       SnArKn Calculator                        ")
                     .color(Color32::WHITE)
-                    .background_color(Color32::from_rgb(0, 0, 0)));
+                    .background_color(Color32::from_rgb(0, 0, 0)),
+                    
+            );
+            
+            ui.label(
+                RichText::new("Evaluate Expression")
+                    .color(Color32::WHITE)
+                    .background_color(Color32::from_rgb(0, 0, 0)),
+            );
             //ui.heading("Evaluate Expression");
-            // Move to the next line }       
+            // Move to the next line }
             ui.vertical(|ui| {
                 //ui.horizontal(|ui| {
                 let user_input =

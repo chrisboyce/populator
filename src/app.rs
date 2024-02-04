@@ -173,7 +173,7 @@ impl eframe::App for Populator {
             ui.spacing_mut().item_spacing.y = 10.0;
 
             ui.label(
-                RichText::new("Evaluate Expression")
+                RichText::new("  Enter Expression Below:  ")
                     .size(15.0)
                     .color(Color32::WHITE)
                     .background_color(Color32::from_rgb(0, 0, 0)),

@@ -88,7 +88,7 @@ impl eframe::App for Populator {
         // For inspiration and more examples, go to https://emilk.github.io/egui
 
         let mut visual = ctx.style().visuals.clone();
-        visual.panel_fill = Color32::from_rgb(255, 0, 0);
+        visual.panel_fill = Color32::from_rgb(0, 0, 0);
         ctx.set_visuals(visual);
 
         egui::TopBottomPanel::top("top_panel").show(ctx, |ui| {

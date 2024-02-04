@@ -195,6 +195,13 @@ impl eframe::App for Populator {
                 //ui.label(format!("= {}", self.settings.equation_settings.output));
 
                 ui.label(
+                    RichText::new("  Results  :  ")
+                        .size(15.0)
+                        .color(Color32::WHITE)
+                        .background_color(Color32::from_rgb(0, 0, 0)),
+                );
+
+                ui.label(
                     RichText::new(format!("= {}", self.settings.equation_settings.output))
                         .size(15.0)
                         .color(Color32::WHITE)

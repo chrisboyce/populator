@@ -115,7 +115,7 @@ impl eframe::App for Populator {
                                 ctx.send_viewport_cmd(egui::ViewportCommand::Close);
                             }
                         },
-                    );                 
+                    );
 
                     ui.menu_button("View", |ui| {
                         if ui
@@ -342,3 +342,5 @@ fn powered_by_egui_and_eframe(ui: &mut egui::Ui) {
         ui.label(".");
     });
 }
+//egui crate documentation: https://docs.rs/egui/latest/egui/
+//emilk/egui: "https://github.com/emilk/egui"

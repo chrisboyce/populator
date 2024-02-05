@@ -1,4 +1,5 @@
-use egui::{Color32, RichText};
+use egui::Widget;
+use egui::{Color32, FontId, RichText, TextEdit, WidgetText};
 use hex::FromHex;
 
 /// We derive Deserialize/Serialize so we can persist app state on shutdown.
@@ -103,11 +104,19 @@ impl eframe::App for Populator {
                     visual.panel_fill = Color32::from_rgb(255, 0, 0);
                     ctx.set_visuals(visual);
 
-                    ui.menu_button("File", |ui| {
-                        if ui.button("Quit").clicked() {
-                            ctx.send_viewport_cmd(egui::ViewportCommand::Close);
-                        }
-                    });
+                    ui.menu_button(
+                        WidgetText::RichText(RichText::new("File").color((Color32::WHITE))),
+                        |ui| {
+                            if ui
+                                .button(WidgetText::RichText(
+                                    RichText::new("Quit").color((Color32::WHITE)),
+                                ))
+                                .clicked()
+                            {
+                                ctx.send_viewport_cmd(egui::ViewportCommand::Close);
+                            }
+                        },
+                    );
                     // let mut visuals = ctx.style().visuals.clone();
                     // visuals.window_fill = Color32::RED;
                     // ctx.set_visuals(visuals);
@@ -180,7 +189,12 @@ impl eframe::App for Populator {
             ui.vertical(|ui| {
                 //ui.horizontal(|ui| {
                 let user_input =
-                    ui.text_edit_singleline(&mut self.settings.equation_settings.intput);
+                    //ui.text_edit_singleline(&mut self.settings.equation_settings.intput);
+                    TextEdit::singleline(&mut self.settings.equation_settings.intput)
+                        .text_color(Color32::WHITE)
+                        .font(FontId::proportional(15.0))
+                        .desired_width(200.0)
+                        .ui(ui);
 
                 if user_input.changed() {
                     let new_result = calculate_result(&self.settings.equation_settings.intput);
@@ -190,20 +204,21 @@ impl eframe::App for Populator {
                 }
 
                 //ui.label(format!("= {}", self.settings.equation_settings.output));
+                ui.horizontal(|ui| {
+                    ui.label(
+                        RichText::new("  Results:  ")
+                            .size(15.0)
+                            .color(Color32::WHITE)
+                            .background_color(Color32::from_rgb(0, 0, 0)),
+                    );
 
-                ui.label(
-                    RichText::new("  Results:  " )
-                        .size(15.0)
-                        .color(Color32::WHITE)
-                        .background_color(Color32::from_rgb(0, 0, 0)),
-                );
-
-                ui.label(
-                    RichText::new(format!(" = {} ", self.settings.equation_settings.output))
-                        .size(15.0)
-                        .color(Color32::WHITE)
-                        .background_color(Color32::from_rgb(0, 0, 0)),
-                );
+                    ui.label(
+                        RichText::new(format!(" = {} ", self.settings.equation_settings.output))
+                            .size(15.0)
+                            .color(Color32::WHITE)
+                            .background_color(Color32::from_rgb(0, 0, 0)),
+                    );
+                });
             });
 
             if self.settings.equation_settings.show_keypad {

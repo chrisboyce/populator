@@ -93,7 +93,6 @@ impl eframe::App for Populator {
         ctx.set_visuals(visual);
 
         egui::TopBottomPanel::top("top_panel").show(ctx, |ui| {
-            // ui.style_mut().visuals.panel_fill = Color32::from_rgb(255, 0, 0);
             // The top panel is often a good place for a menu bar:
 
             egui::menu::bar(ui, |ui| {
@@ -116,10 +115,7 @@ impl eframe::App for Populator {
                                 ctx.send_viewport_cmd(egui::ViewportCommand::Close);
                             }
                         },
-                    );
-                    // let mut visuals = ctx.style().visuals.clone();
-                    // visuals.window_fill = Color32::RED;
-                    // ctx.set_visuals(visuals);
+                    );                 
 
                     ui.menu_button("View", |ui| {
                         if ui
@@ -184,12 +180,9 @@ impl eframe::App for Populator {
                     .color(Color32::WHITE)
                     .background_color(Color32::from_rgb(0, 0, 0)),
             );
-            //ui.heading("Evaluate Expression");
-            // Move to the next line }
+            
             ui.vertical(|ui| {
-                //ui.horizontal(|ui| {
                 let user_input =
-                    //ui.text_edit_singleline(&mut self.settings.equation_settings.intput);
                     TextEdit::singleline(&mut self.settings.equation_settings.intput)
                         .text_color(Color32::WHITE)
                         .font(FontId::proportional(15.0))
@@ -203,7 +196,6 @@ impl eframe::App for Populator {
                     }
                 }
 
-                //ui.label(format!("= {}", self.settings.equation_settings.output));
                 ui.horizontal(|ui| {
                     ui.label(
                         RichText::new("  Results:  ")

@@ -1,5 +1,5 @@
-use egui::Widget;
 use egui::{Color32, FontId, RichText, TextEdit, WidgetText};
+use egui::{Visuals, Widget};
 use hex::FromHex;
 
 /// We derive Deserialize/Serialize so we can persist app state on shutdown.
@@ -89,8 +89,8 @@ impl eframe::App for Populator {
         // For inspiration and more examples, go to https://emilk.github.io/egui
 
         let mut visual = ctx.style().visuals.clone();
-        visual.panel_fill = Color32::from_rgb(0, 0, 0);
-        ctx.set_visuals(visual);
+        // visual.panel_fill = Color32::from_rgb(0, 0, 0);
+        // ctx.set_visuals(visual);
 
         egui::TopBottomPanel::top("top_panel").show(ctx, |ui| {
             // The top panel is often a good place for a menu bar:
@@ -100,14 +100,15 @@ impl eframe::App for Populator {
                 let is_web = cfg!(target_arch = "wasm32");
                 if !is_web {
                     let mut visual = ctx.style().visuals.clone();
-                    visual.panel_fill = Color32::from_rgb(255, 0, 0);
-                    ctx.set_visuals(visual);
+                    // visual.panel_fill = Color32::from_rgb(255, 0, 0);
+                    // ctx.set_visuals(visual);
 
                     ui.menu_button(
                         WidgetText::RichText(RichText::new("File").color((Color32::WHITE))),
                         |ui| {
                             if ui
-                                .button(WidgetText::RichText(RichText::new("Quit").color((Color32::WHITE)),
+                                .button(WidgetText::RichText(
+                                    RichText::new("Quit").color((Color32::WHITE)),
                                 ))
                                 .clicked()
                             {
@@ -120,20 +121,24 @@ impl eframe::App for Populator {
                         WidgetText::RichText(RichText::new("View").color((Color32::WHITE))),
                         |ui| {
                             if ui
-                                .checkbox(&mut self.settings.equation_settings.show_keypad, "Keypad")
+                                .checkbox(
+                                    &mut self.settings.equation_settings.show_keypad,
+                                    "Keypad",
+                                )
                                 .changed()
-                        {
-                            if self.settings.equation_settings.show_keypad {
-                                ctx.send_viewport_cmd(egui::ViewportCommand::InnerSize(
-                                    egui::vec2(400.0, 400.0),
-                                ));
+                            {
+                                if self.settings.equation_settings.show_keypad {
+                                    ctx.send_viewport_cmd(egui::ViewportCommand::InnerSize(
+                                        egui::vec2(400.0, 400.0),
+                                    ));
+                                }
                             }
-                        }
-                        ui.checkbox(
-                            &mut self.settings.color_settings.show_color_picker,
-                            "Color Picker",
-                        );
-                    });
+                            ui.checkbox(
+                                &mut self.settings.color_settings.show_color_picker,
+                                "Color Picker",
+                            );
+                        },
+                    );
                     ui.add_space(16.0);
                 }
 
@@ -142,8 +147,8 @@ impl eframe::App for Populator {
         });
 
         let mut visual = ctx.style().visuals.clone();
-        visual.panel_fill = Color32::from_rgb(190, 190, 190); //Medium Gray
-        ctx.set_visuals(visual);
+        // visual.panel_fill = Color32::from_rgb(190, 190, 190); //Medium Gray
+        // ctx.set_visuals(visual);
 
         egui::SidePanel::left("my_left_panel")
             .exact_width(10.0)
@@ -157,9 +162,9 @@ impl eframe::App for Populator {
 
         egui::TopBottomPanel::top("my_top_panel").show(ctx, |ui| {});
 
-        let mut visual = ctx.style().visuals.clone();
-        visual.panel_fill = Color32::from_rgb(211, 211, 211); //Light Gray
-        ctx.set_visuals(visual);
+        // let mut visual = ctx.style().visuals.clone();
+        // visual.panel_fill = Color32::from_rgb(211, 211, 211); //Light Gray
+        // ctx.set_visuals(visual);
 
         egui::CentralPanel::default().show(ctx, |ui| {
             // The central panel the region left after adding TopPanel's and SidePanel's
@@ -168,27 +173,23 @@ impl eframe::App for Populator {
 
             ui.heading(
                 RichText::new("                     SnArKn Calculator                      ")
-                    .size(20.0)
-                    .color(Color32::WHITE)
-                    .background_color(Color32::from_rgb(0, 0, 0)),
+                    .size(20.0), // .color(Color32::WHITE)
+                                 // .background_color(Color32::from_rgb(0, 0, 0)),
             );
 
             ui.spacing_mut().item_spacing.y = 10.0;
 
             ui.label(
-                RichText::new("  Enter Expression:  ")
-                    .size(15.0)
-                    .color(Color32::WHITE)
-                    .background_color(Color32::from_rgb(0, 0, 0)),
+                RichText::new("  Enter Expression:  ").size(15.0), // .color(Color32::WHITE)
+                                                                   // .background_color(Color32::from_rgb(0, 0, 0)),
             );
-            
+
             ui.vertical(|ui| {
-                let user_input =
-                    TextEdit::singleline(&mut self.settings.equation_settings.intput)
-                        .text_color(Color32::WHITE)
-                        .font(FontId::proportional(15.0))
-                        .desired_width(200.0)
-                        .ui(ui);
+                let user_input = TextEdit::singleline(&mut self.settings.equation_settings.intput)
+                    // .text_color(Color32::WHITE)
+                    .font(FontId::proportional(15.0))
+                    .desired_width(200.0)
+                    .ui(ui);
 
                 if user_input.changed() {
                     let new_result = calculate_result(&self.settings.equation_settings.intput);
@@ -199,17 +200,14 @@ impl eframe::App for Populator {
 
                 ui.horizontal(|ui| {
                     ui.label(
-                        RichText::new("  Results:  ")
-                            .size(15.0)
-                            .color(Color32::WHITE)
-                            .background_color(Color32::from_rgb(0, 0, 0)),
+                        RichText::new("  Results:  ").size(15.0), // .color(Color32::WHITE)
+                                                                  // .background_color(Color32::from_rgb(0, 0, 0)),
                     );
 
                     ui.label(
                         RichText::new(format!(" = {} ", self.settings.equation_settings.output))
-                            .size(15.0)
-                            .color(Color32::WHITE)
-                            .background_color(Color32::from_rgb(0, 0, 0)),
+                            .size(15.0), // .color(Color32::WHITE)
+                                         // .background_color(Color32::from_rgb(0, 0, 0)),
                     );
                 });
             });

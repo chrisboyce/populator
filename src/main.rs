@@ -4,6 +4,9 @@
 // When compiling natively:
 #[cfg(not(target_arch = "wasm32"))]
 fn main() -> eframe::Result<()> {
+    use egui::{style::WidgetVisuals, Color32, Visuals};
+    use serde::de::Visitor;
+
     env_logger::init(); // Log to stderr (if you run with `RUST_LOG=debug`).
 
     let native_options = eframe::NativeOptions {
@@ -20,7 +23,49 @@ fn main() -> eframe::Result<()> {
     eframe::run_native(
         "populator",
         native_options,
-        Box::new(|cc| Box::new(populator::Populator::new(cc))),
+        Box::new(|cc| {
+            // Use the "dark" colors as the basis for modification
+            let mut visuals = Visuals::dark();
+
+            // [Panels](https://docs.rs/egui/latest/egui/containers/panel/index.html)
+            // "take up space" in the UI, e.g. `CentralPanel`, `SidePanel`,
+            // and `TopBottomPanel`. This color appears to be the background
+            // for most of the UI, notably not including input/menu elements.
+            // Text inputs, chekboxes, drop-down menus, etc. have background
+            // colors overridden in other places, e.g. [Widgets](https://docs.rs/egui/latest/egui/style/struct.Widgets.html)
+            // which have an entire [WidgetVisual](https://docs.rs/egui/latest/egui/style/struct.WidgetVisuals.html)
+            // style defined for 5 "states": noninteractive, inactive, hovered,
+            // active, and open. This means to make colors consisent, we'll need
+            // to change the "background" color in multiple places (if we want
+            // them to be the same).
+            visuals.panel_fill = Color32::DARK_RED;
+
+            // [Windows](https://docs.rs/egui/latest/egui/containers/struct.Window.html)
+            // are floating UI elements. [Menus](https://docs.rs/egui/latest/egui/menu/index.html)
+            // appear to be implemented in some part as a `Window` since this
+            // color affects menu background color
+            visuals.window_fill = Color32::DARK_GREEN;
+
+            // From [the docs](https://docs.rs/egui/latest/egui/style/struct.Visuals.html#structfield.override_text_color)
+            // > If text_color is None (default), then the text color will be the
+            // > same as the foreground stroke color (WidgetVisuals::fg_stroke)
+            // > and will depend on whether or not the widget is being interacted
+            // > with.
+            visuals.override_text_color = Some(Color32::WHITE);
+
+            // This changes the [background color](https://docs.rs/egui/latest/egui/style/struct.WidgetVisuals.html#structfield.bg_fill)
+            // of inactive widgets. This makes the checkbox background appear
+            // dark blue until it is interacted  with in some way.
+            visuals.widgets.inactive.bg_fill = Color32::DARK_BLUE;
+
+            // Burried in [the docs](https://docs.rs/egui/latest/egui/widgets/text_edit/struct.TextEdit.html#other),
+            // we can change the text input background color by changing the
+            // `extremet_bg_color`
+            visuals.extreme_bg_color = Color32::GRAY;
+
+            cc.egui_ctx.set_visuals(visuals);
+            Box::new(populator::Populator::new(cc))
+        }),
     )
 }
 

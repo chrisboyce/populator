@@ -107,8 +107,7 @@ impl eframe::App for Populator {
                         WidgetText::RichText(RichText::new("File").color((Color32::WHITE))),
                         |ui| {
                             if ui
-                                .button(WidgetText::RichText(
-                                    RichText::new("Quit").color((Color32::WHITE)),
+                                .button(WidgetText::RichText(RichText::new("Quit").color((Color32::WHITE)),
                                 ))
                                 .clicked()
                             {
@@ -120,9 +119,9 @@ impl eframe::App for Populator {
                     ui.menu_button(
                         WidgetText::RichText(RichText::new("View").color((Color32::WHITE))),
                         |ui| {
-                        if ui
-                            .checkbox(&mut self.settings.equation_settings.show_keypad, "Keypad")
-                            .changed()
+                            if ui
+                                .checkbox(&mut self.settings.equation_settings.show_keypad, "Keypad")
+                                .changed()
                         {
                             if self.settings.equation_settings.show_keypad {
                                 ctx.send_viewport_cmd(egui::ViewportCommand::InnerSize(

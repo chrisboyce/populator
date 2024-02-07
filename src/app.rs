@@ -158,15 +158,30 @@ impl eframe::App for Populator {
         use std::time::Duration;
         let mut current_time = Local::now(); // Get the current time in local time zone
         let pacific_time = current_time.with_timezone(&chrono::Utc).with_timezone(&chrono::FixedOffset::west(8 * 3600)); // Convert to Pacific Time 
+        //let time_string = pacific_time.format("%H:%M:%S");
 
         egui::TopBottomPanel::bottom("my_bottom_panel").show(ctx, |ui| {
             ui.horizontal(|ui| {
-                ui.label(format!(
+               let label = ui.label(format!(
                     "Current Time: {:02}:{:02}:{:02}",
-                    pacific_time.hour(),
-                    pacific_time.minute(),
-                    pacific_time.second()
+                   pacific_time.hour(),
+                   pacific_time.minute(),
+                   pacific_time.second()
                 ));
+                //ui.label(
+                    //RichText::new("  Enter Expression:  ")
+                        //.size(15.0)
+                        //.color(Color32::WHITE)
+                        //.background_color(Color32::from_rgb(0, 0, 0)),
+                //);
+
+                //ui.label(
+                   //RichText::new("Current Time:",time_string)
+                   //.size(15.0)
+                   //.color(Color32::WHITE)
+                   //.background_color(Color32::from_rgb(0, 0, 0)),
+                //)
+
             });          
             //Update to current time every 1 sec
             current_time = Local::now();

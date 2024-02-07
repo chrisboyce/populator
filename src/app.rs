@@ -117,7 +117,9 @@ impl eframe::App for Populator {
                         },
                     );
 
-                    ui.menu_button("View", |ui| {
+                    ui.menu_button(
+                        WidgetText::RichText(RichText::new("View").color((Color32::WHITE))),
+                        |ui| {
                         if ui
                             .checkbox(&mut self.settings.equation_settings.show_keypad, "Keypad")
                             .changed()

@@ -187,7 +187,7 @@ impl eframe::App for Populator {
                     pacific_time.second()
                  ))
                     .size(15.0)
-                    .color(Color32::BLACK),
+                    .color(Color32::WHITE),
                     //.background_color(Color32::from_rgb(0, 0, 0)),
                  )
  

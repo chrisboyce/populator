@@ -4,6 +4,7 @@
 // When compiling natively:
 #[cfg(not(target_arch = "wasm32"))]
 fn main() -> eframe::Result<()> {
+    use eframe::glow::DRAW_BUFFER;
     use egui::{style::WidgetVisuals, Color32, Visuals};
     use serde::de::Visitor;
 
@@ -60,8 +61,10 @@ fn main() -> eframe::Result<()> {
 
             // Burried in [the docs](https://docs.rs/egui/latest/egui/widgets/text_edit/struct.TextEdit.html#other),
             // we can change the text input background color by changing the
-            // `extremet_bg_color`
+            // `extreme_bg_color`
             visuals.extreme_bg_color = Color32::GRAY;
+            //visuals.extreme_bg_color = Color32::DARK_RED;
+    
 
             cc.egui_ctx.set_visuals(visuals);
             Box::new(populator::Populator::new(cc))

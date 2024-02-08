@@ -250,12 +250,12 @@ impl eframe::App for Populator {
 
                 ui.horizontal(|ui| {
                     ui.label(
-                        RichText::new("  Results:  ").size(15.0), // .color(Color32::WHITE)
+                        RichText::new("  Results").size(15.0), // .color(Color32::WHITE)
                                                                   // .background_color(Color32::from_rgb(0, 0, 0)),
                     );
 
                     ui.label(
-                        RichText::new(format!(" = {} ", self.settings.equation_settings.output))
+                        RichText::new(format!("=  {} ", self.settings.equation_settings.output))
                             .size(15.0), // .color(Color32::WHITE)
                                          // .background_color(Color32::from_rgb(0, 0, 0)),
                     );

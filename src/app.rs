@@ -166,19 +166,6 @@ impl eframe::App for Populator {
 
         egui::TopBottomPanel::bottom("my_bottom_panel").show(ctx, |ui| {
             ui.horizontal(|ui| {
-                //let label = ui.label(format!(
-                     //"Current Time: {:02}:{:02}:{:02}",
-                    //pacific_time.hour(),
-                    //pacific_time.minute(),
-                    //pacific_time.second()
-                 //));
-                 //ui.label(
-                     //RichText::new("  Enter Expression:  ")
-                         //.size(15.0)
-                         //.color(Color32::WHITE)
-                         //.background_color(Color32::from_rgb(0, 0, 0)),
-                 //);
- 
                  ui.label(
                     RichText::new(format!(
                      "Current Time: {:02}:{:02}:{:02}",
@@ -190,24 +177,11 @@ impl eframe::App for Populator {
                     .color(Color32::WHITE),
                     //.background_color(Color32::from_rgb(0, 0, 0)),
                  )
- 
              });          
              //Update to current time every 1 sec
              current_time = Local::now();
              ctx.request_repaint_after(Duration::from_secs(1));
- 
-
-
-
-
-
-
         });
-
-
-
-
-
 
 
         egui::TopBottomPanel::top("my_top_panel").show(ctx, |ui| {});

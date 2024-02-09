@@ -163,7 +163,7 @@ impl eframe::App for Populator {
         use std::time::Duration;
         let mut current_time = Local::now(); // Get the current time in local time zone
         let pacific_time = current_time.with_timezone(&chrono::Utc).with_timezone(&chrono::FixedOffset::west(8 * 3600)); // Convert to Pacific Time 
-
+        
         egui::TopBottomPanel::bottom("my_bottom_panel").show(ctx, |ui| {
             ui.horizontal(|ui| {
                  ui.label(

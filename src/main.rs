@@ -4,9 +4,9 @@
 // When compiling natively:
 #[cfg(not(target_arch = "wasm32"))]
 fn main() -> eframe::Result<()> {
-    use eframe::glow::DRAW_BUFFER;
-    use egui::{style::WidgetVisuals, Color32, Visuals};
-    use serde::de::Visitor;
+    
+    use egui::{Color32, Visuals};
+    
 
     env_logger::init(); // Log to stderr (if you run with `RUST_LOG=debug`).
 

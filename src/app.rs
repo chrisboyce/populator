@@ -212,7 +212,7 @@ impl eframe::App for Populator {
                                  // .background_color(Color32::from_rgb(0, 0, 0)),
             );
 
-            ui.spacing_mut().item_spacing.y = 10.0;
+            
 
             ui.label(
                 RichText::new("  Enter Expression:  ").size(15.0), 
@@ -249,6 +249,21 @@ impl eframe::App for Populator {
                     );
                 });
             });
+
+            ui.spacing_mut().item_spacing.y = 500.0;
+            {
+                ui.horizontal(|ui| {
+                    ui.spacing_mut().item_spacing.x = 0.0;
+                    ui.label("Powered by ");
+                    ui.hyperlink_to("egui", "https://github.com/emilk/egui");
+                    ui.label(" and ");
+                    ui.hyperlink_to(
+                        "eframe",
+                        "https://github.com/emilk/egui/tree/master/crates/eframe",
+                    );
+                    ui.label(".");
+                });
+            }
 
             if self.settings.equation_settings.show_keypad {
                 ui.separator();

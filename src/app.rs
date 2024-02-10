@@ -161,17 +161,25 @@ impl eframe::App for Populator {
         use chrono::{DateTime, Datelike, Local, Timelike, TimeZone};
         use std::thread;
         use std::time::Duration;
-        let mut current_time = Local::now(); // Get the current time in local time zone
-        let pacific_time = current_time.with_timezone(&chrono::Utc).with_timezone(&chrono::FixedOffset::west(8 * 3600)); // Convert to Pacific Time 
-        
+        //let mut current_time = Local::now(); // Get the current time in local time zone
+        //let pacific_time = current_time.with_timezone(&chrono::Utc).with_timezone(&chrono::FixedOffset::west(8 * 3600)); // Convert to Pacific Time 
+        let mut current_time = Local::now();
+        let hour = current_time.hour();
+        let minute =current_time.minute();
+        let second = current_time.second();
+        let am_pm = if hour < 12 {"AM"} else {"PM"};
+        let hour_12 = if hour > 12 {hour -12} else {hour};
+
         egui::TopBottomPanel::bottom("my_bottom_panel").show(ctx, |ui| {
             ui.horizontal(|ui| {
                  ui.label(
                     RichText::new(format!(
-                     "Current Time: {:02}:{:02}:{:02}",
-                    pacific_time.hour(),
-                    pacific_time.minute(),
-                    pacific_time.second()
+                     //"Current Time: {:02}:{:02}:{:02}",
+                     "Current Time: {:02}:{:02}:{:02} {}",
+                     hour_12, minute, second, am_pm
+                    //pacific_time.hour(),
+                    //pacific_time.minute(),
+                    //pacific_time.second()
                  ))
                     .size(15.0)
                     .color(Color32::WHITE),

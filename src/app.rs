@@ -169,14 +169,15 @@ impl eframe::App for Populator {
         let second = current_time.second();
         let am_pm = if hour < 12 {"AM"} else {"PM"};
         let hour_12 = if hour > 12 {hour -12} else {hour};
+        let formatted_hour = if hour_12 < 10 {format!(" {}", hour_12)} else{format!("{}", hour_12)};
 
         egui::TopBottomPanel::bottom("my_bottom_panel").show(ctx, |ui| {
             ui.horizontal(|ui| {
                  ui.label(
                     RichText::new(format!(
-                     //"Current Time: {:02}:{:02}:{:02}",
+                     //"Current Time: {}:{:02}:{:02}",
                      "Current Time: {:02}:{:02}:{:02} {}",
-                     hour_12, minute, second, am_pm
+                     formatted_hour, minute, second, am_pm
                     //pacific_time.hour(),
                     //pacific_time.minute(),
                     //pacific_time.second()

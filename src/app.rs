@@ -250,7 +250,7 @@ impl eframe::App for Populator {
                 });
             });
 
-            ui.spacing_mut().item_spacing.y = 500.0;
+            ui.spacing_mut().item_spacing.y = 50.0;
             {
                 ui.horizontal(|ui| {
                     ui.spacing_mut().item_spacing.x = 0.0;

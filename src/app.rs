@@ -127,11 +127,11 @@ impl eframe::App for Populator {
                                 )
                                 .changed()
                             {
-                                if self.settings.equation_settings.show_keypad {
-                                    ctx.send_viewport_cmd(egui::ViewportCommand::InnerSize(
-                                        egui::vec2(400.0, 400.0),
-                                    ));
-                                }
+                                //if self.settings.equation_settings.show_keypad {
+                                    //ctx.send_viewport_cmd(egui::ViewportCommand::InnerSize(
+                                        //egui::vec2(400.0, 400.0),
+                                    //));
+                                //}
                             }
                             ui.checkbox(
                                 &mut self.settings.color_settings.show_color_picker,
@@ -159,7 +159,7 @@ impl eframe::App for Populator {
             .show(ctx, |ui| {});
 
         use chrono::{DateTime, Datelike, Local, Timelike, TimeZone};
-        use std::thread;
+        //use std::thread;
         use std::time::Duration;
         //let mut current_time = Local::now(); // Get the current time in local time zone
         //let pacific_time = current_time.with_timezone(&chrono::Utc).with_timezone(&chrono::FixedOffset::west(8 * 3600)); // Convert to Pacific Time 

@@ -158,7 +158,8 @@ impl eframe::App for Populator {
             .exact_width(25.0)
             .show(ctx, |ui| {});
 
-        use chrono::{DateTime, Datelike, Local, Timelike, TimeZone};
+        //use chrono::{DateTime, Datelike, Local, Timelike, TimeZone};
+        use chrono:: {Local, Timelike};
         //use std::thread;
         use std::time::Duration;
         //let mut current_time = Local::now(); // Get the current time in local time zone

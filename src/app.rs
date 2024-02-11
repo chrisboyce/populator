@@ -203,7 +203,7 @@ impl eframe::App for Populator {
         egui::CentralPanel::default().show(ctx, |ui| {
             // The central panel the region left after adding TopPanel's and SidePanel's
             
-            
+            ui.spacing_mut().item_spacing.y = 20.0;
 
             ui.heading(
                 RichText::new("                     SnArKn Calculator                      ")
@@ -211,27 +211,7 @@ impl eframe::App for Populator {
                     .size(20.0), // .color(Color32::WHITE)
                                  // .background_color(Color32::from_rgb(0, 0, 0)),
             );
-            ui.spacing_mut().item_spacing.y = 20.0;
-            {
-                ui.horizontal(|ui| {
-                    ui.spacing_mut().item_spacing.x = 0.0;
-                    ui.label("       (Powered by ");
-                    ui.hyperlink_to(
-                        "egui", 
-                        "https://github.com/emilk/egui");
-                    ui.label(" and ");
-                    ui.hyperlink_to(
-                        "eframe",
-                        "https://github.com/emilk/egui/tree/master/crates/eframe");
-                    ui.label(".  ");
-                    ui.label("Calculations by ");
-                    ui.hyperlink_to(
-                        "fend", 
-                        "https://printfn.github.io/fend/documentation/" );
-                    ui.label(".) ");
-
-                });
-            }
+            
             ui.spacing_mut().item_spacing.y = 10.0;
 
             ui.label(
@@ -269,21 +249,6 @@ impl eframe::App for Populator {
                     );
                 });
             });
-
-            //ui.spacing_mut().item_spacing.y = 100.0;
-           /* {
-                ui.horizontal(|ui| {
-                    ui.spacing_mut().item_spacing.x = 0.0;
-                    ui.label("Powered by ");
-                    ui.hyperlink_to("egui", "https://github.com/emilk/egui");
-                    ui.label(" and ");
-                    ui.hyperlink_to(
-                        "eframe",
-                        "https://github.com/emilk/egui/tree/master/crates/eframe",
-                    );
-                    ui.label(".");
-                });
-            }*/
 
             if self.settings.equation_settings.show_keypad {
                 ui.separator();
@@ -385,7 +350,7 @@ impl eframe::App for Populator {
             }
 
             ui.with_layout(egui::Layout::bottom_up(egui::Align::LEFT), |ui| {
-                // powered_by_egui_and_eframe(ui);
+                powered_by_egui_and_eframe(ui);
                 egui::warn_if_debug_build(ui);
             });
         });
@@ -404,17 +369,26 @@ fn calculate_result(user_input: &String) -> Option<String> {
 fn powered_by_egui_and_eframe(ui: &mut egui::Ui) {
     ui.horizontal(|ui| {
         ui.spacing_mut().item_spacing.x = 0.0;
-        ui.label("Powered by ");
-        ui.hyperlink_to("egui", "https://github.com/emilk/egui");
+        ui.label("       (Powered by ");
+        ui.hyperlink_to(
+            "egui", 
+            "https://github.com/emilk/egui");
         ui.label(" and ");
         ui.hyperlink_to(
             "eframe",
-            "https://github.com/emilk/egui/tree/master/crates/eframe",
-        );
-        ui.label(".");
+            "https://github.com/emilk/egui/tree/master/crates/eframe");
+        ui.label(".  ");
+        ui.label("Calculations by ");
+        ui.hyperlink_to(
+            "fend", 
+            "https://printfn.github.io/fend/documentation/" );
+        ui.label(".) ");
+
     });
 }
-//Links...
-//fend documentation: https://printfn.github.io/fend/documentation/
-//egui crate documentation: https://docs.rs/egui/latest/egui/
-//emilk/egui: "https://github.com/emilk/egui"
+
+/*Links...
+fend documentation: https://printfn.github.io/fend/documentation/
+egui crate documentation: https://docs.rs/egui/latest/egui/
+emilk/egui: "https://github.com/emilk/egui"
+*/

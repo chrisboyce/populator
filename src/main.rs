@@ -62,7 +62,7 @@ fn main() -> eframe::Result<()> {
             // Burried in [the docs](https://docs.rs/egui/latest/egui/widgets/text_edit/struct.TextEdit.html#other),
             // we can change the text input background color by changing the
             // `extreme_bg_color`
-            visuals.extreme_bg_color = Color32::GRAY;
+            visuals.extreme_bg_color = Color32::DARK_GRAY;
             //visuals.extreme_bg_color = Color32::DARK_RED;
     
 

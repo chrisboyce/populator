@@ -128,9 +128,9 @@ impl eframe::App for Populator {
                                 .changed()
                             {
                                 //if self.settings.equation_settings.show_keypad {
-                                    //ctx.send_viewport_cmd(egui::ViewportCommand::InnerSize(
-                                        //egui::vec2(400.0, 400.0),
-                                    //));
+                                //ctx.send_viewport_cmd(egui::ViewportCommand::InnerSize(
+                                //egui::vec2(400.0, 400.0),
+                                //));
                                 //}
                             }
                             ui.checkbox(
@@ -159,40 +159,45 @@ impl eframe::App for Populator {
             .show(ctx, |ui| {});
 
         //use chrono::{DateTime, Datelike, Local, Timelike, TimeZone};
-        use chrono:: {Local, Timelike};
+        use chrono::{Local, Timelike};
         //use std::thread;
         use std::time::Duration;
         //let mut current_time = Local::now(); // Get the current time in local time zone
-        //let pacific_time = current_time.with_timezone(&chrono::Utc).with_timezone(&chrono::FixedOffset::west(8 * 3600)); // Convert to Pacific Time 
+        //let pacific_time = current_time.with_timezone(&chrono::Utc).with_timezone(&chrono::FixedOffset::west(8 * 3600)); // Convert to Pacific Time
         let mut current_time = Local::now();
         let hour = current_time.hour();
-        let minute =current_time.minute();
+        let minute = current_time.minute();
         let second = current_time.second();
-        let am_pm = if hour < 12 {"AM"} else {"PM"};
-        let hour_12 = if hour > 12 {hour -12} else {hour};
-        let formatted_hour = if hour_12 < 10 {format!(" {}", hour_12)} else{format!("{}", hour_12)};
+        let am_pm = if hour < 12 { "AM" } else { "PM" };
+        let hour_12 = if hour > 12 { hour - 12 } else { hour };
+        let formatted_hour = if hour_12 < 10 {
+            format!(" {}", hour_12)
+        } else {
+            format!("{}", hour_12)
+        };
 
         egui::TopBottomPanel::bottom("my_bottom_panel").show(ctx, |ui| {
             ui.horizontal(|ui| {
-                 ui.label(
+                ui.label(
                     RichText::new(format!(
-                     //"Current Time: {}:{:02}:{:02}",
-                     "Current Time: {:02}:{:02}:{:02} {}",
-                     formatted_hour, minute, second, am_pm
-                    //pacific_time.hour(),
-                    //pacific_time.minute(),
-                    //pacific_time.second()
-                 ))
+                        //"Current Time: {}:{:02}:{:02}",
+                        "Current Time: {:02}:{:02}:{:02} {}",
+                        formatted_hour,
+                        minute,
+                        second,
+                        am_pm //pacific_time.hour(),
+                              //pacific_time.minute(),
+                              //pacific_time.second()
+                    ))
                     .size(15.0)
                     .color(Color32::WHITE),
                     //.background_color(Color32::from_rgb(0, 0, 0)),
-                 )
-             });          
-             //Update to current time every 1 sec
-             current_time = Local::now();
-             ctx.request_repaint_after(Duration::from_secs(1));
+                )
+            });
+            //Update to current time every 1 sec
+            current_time = Local::now();
+            ctx.request_repaint_after(Duration::from_secs(1));
         });
-
 
         egui::TopBottomPanel::top("my_top_panel").show(ctx, |ui| {});
 
@@ -202,7 +207,7 @@ impl eframe::App for Populator {
 
         egui::CentralPanel::default().show(ctx, |ui| {
             // The central panel the region left after adding TopPanel's and SidePanel's
-            
+
             ui.spacing_mut().item_spacing.y = 20.0;
 
             ui.heading(
@@ -211,11 +216,11 @@ impl eframe::App for Populator {
                     .size(20.0), // .color(Color32::WHITE)
                                  // .background_color(Color32::from_rgb(0, 0, 0)),
             );
-            
+
             ui.spacing_mut().item_spacing.y = 10.0;
 
             ui.label(
-                RichText::new("  Enter Expression:  ").size(15.0), 
+                RichText::new("  Enter Expression:  ").size(15.0),
                 // .color(Color32::WHITE)
                 // .background_color(Color32::from_rgb(0, 0, 0)),
             );
@@ -224,7 +229,8 @@ impl eframe::App for Populator {
                 let user_input = TextEdit::singleline(&mut self.settings.equation_settings.intput)
                     // .text_color(Color32::WHITE)
                     .font(FontId::proportional(15.0))
-                    .desired_width(f32::INFINITY)
+                    .desired_width(0.0)
+                    .clip_text(false)
                     .ui(ui);
 
                 if user_input.changed() {
@@ -236,9 +242,7 @@ impl eframe::App for Populator {
 
                 ui.horizontal(|ui| {
                     ui.label(
-                        RichText::new("  Results  = ")
-                        .size(15.0), 
-
+                        RichText::new("  Results  = ").size(15.0),
                         // .color(Color32::WHITE)
                         // .background_color(Color32::from_rgb(0, 0, 0)),
                     );
@@ -372,20 +376,16 @@ fn powered_by_egui_and_eframe(ui: &mut egui::Ui) {
     ui.horizontal(|ui| {
         ui.spacing_mut().item_spacing.x = 0.0;
         ui.label("       (Powered by ");
-        ui.hyperlink_to(
-            "egui", 
-            "https://github.com/emilk/egui");
+        ui.hyperlink_to("egui", "https://github.com/emilk/egui");
         ui.label(" and ");
         ui.hyperlink_to(
             "eframe",
-            "https://github.com/emilk/egui/tree/master/crates/eframe");
+            "https://github.com/emilk/egui/tree/master/crates/eframe",
+        );
         ui.label(".  ");
         ui.label("Calculations by ");
-        ui.hyperlink_to(
-            "fend", 
-            "https://printfn.github.io/fend/documentation/" );
+        ui.hyperlink_to("fend", "https://printfn.github.io/fend/documentation/");
         ui.label(".) ");
-
     });
 }
 

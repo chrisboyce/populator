@@ -224,7 +224,7 @@ impl eframe::App for Populator {
                 let user_input = TextEdit::singleline(&mut self.settings.equation_settings.intput)
                     // .text_color(Color32::WHITE)
                     .font(FontId::proportional(15.0))
-                    .desired_width(200.0)
+                    .desired_width(f32::INFINITY)
                     .ui(ui);
 
                 if user_input.changed() {

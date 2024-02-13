@@ -185,9 +185,7 @@ impl eframe::App for Populator {
                         formatted_hour,
                         minute,
                         second,
-                        am_pm //pacific_time.hour(),
-                              //pacific_time.minute(),
-                              //pacific_time.second()
+                        am_pm 
                     ))
                     .size(15.0)
                     .color(Color32::WHITE),
@@ -201,18 +199,8 @@ impl eframe::App for Populator {
 
         egui::TopBottomPanel::top("my_top_panel").show(ctx, |ui| {});
 
-        // let mut visual = ctx.style().visuals.clone();
-        // visual.panel_fill = Color32::from_rgb(211, 211, 211); //Light Gray
-        // ctx.set_visuals(visual);
-
         egui::CentralPanel::default().show(ctx, |ui| {
             // The central panel the region left after adding TopPanel's and SidePanel's
-
-            //let image_path = "assets/hp_graqphing_calculator.png";
-            //ui.image(ctx.texture(image_path), egui::vec2(200.00, 200.00));
-            //ui.image(ctx.texture_ui(image_path), egui::vec2(200,200));
-
-                
             ui.spacing_mut().item_spacing.y = 20.0;
 
             ui.heading(

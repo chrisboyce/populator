@@ -180,7 +180,6 @@ impl eframe::App for Populator {
             ui.horizontal(|ui| {
                 ui.label(
                     RichText::new(format!(
-                        //"Current Time: {}:{:02}:{:02}",
                         "Current Time: {:02}:{:02}:{:02} {}",
                         formatted_hour,
                         minute,

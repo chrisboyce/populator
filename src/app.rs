@@ -231,6 +231,7 @@ impl eframe::App for Populator {
                     .font(FontId::proportional(15.0))
                     .desired_width(0.0)
                     .clip_text(false)
+                    //The .desired_width and .clip_text combination above results in a dynamic sized Results field being displayed!
                     .ui(ui);
 
                 if user_input.changed() {

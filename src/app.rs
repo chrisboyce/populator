@@ -210,6 +210,7 @@ impl eframe::App for Populator {
 
             //let image_path = "assets/hp_graqphing_calculator.png";
             //ui.image(ctx.texture(image_path), egui::vec2(200.00, 200.00));
+            //ui.image(ctx.texture_ui(image_path), egui::vec2(200,200));
 
             ui.spacing_mut().item_spacing.y = 20.0;
 
